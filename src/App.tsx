@@ -16,8 +16,8 @@ function App():JSX.Element   {
     return (
         <div className="App">
             <TodoList title={"What to learn"} tasks={tasks}/>
-            {/*<TodoList title={"What to buy"}/>*/}
-            {/*<TodoList title={"What to read"}/>*/}
+            <TodoList title={"What to buy"} tasks={tasks}/>
+            <TodoList title={"What to read"} tasks={tasks}/>
         </div>
     );
 }
