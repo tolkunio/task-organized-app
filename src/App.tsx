@@ -10,7 +10,7 @@ export type TaskType = {
     isDone: boolean
 }
 
-type TodoListType = {
+export type TodoListType = {
     id: string,
     title: string,
     filter: FilterValuesType
@@ -86,7 +86,7 @@ function App(): JSX.Element {
 
     }
     const updateTodoListTitle=(todolistId:string,newTodolistTitle:string)=>{
-        setTodolists(todolists.map(el=>el.id==todolistId?{...el,title:newTodolistTitle}:el))    ;
+        setTodolists(todolists.map(el=>el.id===todolistId?{...el,title:newTodolistTitle}:el))    ;
     }
 
     const addTodoList = (newTitle: string) => {

@@ -1,5 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import s from '../TodoLost.module.css';
+import {Button, TextField} from '@mui/material';
 type AddItemFormPropsType={
     addCallBack:(title:string)=>void;
 }
@@ -26,11 +27,13 @@ export const AddItemForm = (props:AddItemFormPropsType) => {
     };
     return (
         <div>
-            <input className={error ? s.error : ''}
+            <TextField error={!!error}
+                       variant={'outlined'}
+                       label={'type value'}
                    value={title}
                    onChange={onChangeTextHandler}
                    onKeyPress={onKeyPressHandler}/>
-            <button onClick={addTask}>+</button>
+            <Button onClick={addTask} variant={'contained'} color={'primary'}>+</Button>
             {error && <div className={s.errorMessage}>{error}</div>}
         </div>
     );
