@@ -1,6 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, FC, useState} from 'react';
 import {FilterValuesType, TaskType} from './App'
-import s from './TodoLost.module.css';
+import s from './TodoList.module.css';
 import SuperCheckBox from './components/SuperCheckBox';
 import {v1} from 'uuid/index';
 import {AddItemForm} from './components/AddItemForm';

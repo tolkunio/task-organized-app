@@ -12,6 +12,7 @@ export const todolistsReducer = (state: Array<TodoListType>, action: TodolistsTy
             }
             state.push(newTodo);
             return state;
+            // return [...state,{id:action.todolistId,title:action.newTitle,filter:'all'}];
         case 'CHANGE_TODOLIST_TITLE':
             return state.map(el=>el.id==action.todolistId?{...el,title:action.newTodolistTitle}:el);
         case 'CHANGE_TODOLIST_FILTER':
