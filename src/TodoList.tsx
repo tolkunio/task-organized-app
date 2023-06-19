@@ -1,6 +1,6 @@
 import React, {memo, useCallback} from 'react';
 import {FilterValuesType} from './App';
-import {AddItemForm} from './AddItemForm';
+import {AddItemForm} from './stories/AddItemForm';
 import {EditableSpan} from './EditableSpan';
 import {Button, IconButton} from '@mui/material';
 import {Delete} from '@mui/icons-material';
