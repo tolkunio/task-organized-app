@@ -1,19 +1,23 @@
-import React, {memo, useCallback} from 'react';
+import React, {memo, useCallback, useEffect} from 'react';
 import {FilterValuesType} from './App';
 import {AddItemForm} from './stories/AddItemForm';
 import {EditableSpan} from './EditableSpan';
 import {Button, IconButton} from '@mui/material';
 import {Delete} from '@mui/icons-material';
 import {Task} from './Task';
+import {useDispatch} from 'react-redux';
+import {fetchTasksTC, setTasksAC} from './state/tasks-reducer';
+import {useAppDispatch} from './state/store';
 
 
 export type TaskType = {
     id: string
     title: string
-    isDone: boolean
+    isDone: boolean,
+
 }
 
-type PropsType = {
+type TodolistPropsType = {
     id: string
     title: string
     tasks: Array<TaskType>
@@ -29,8 +33,13 @@ type PropsType = {
 
 }
 
-export const Todolist=memo((props: PropsType)=> {
-    console.log('Todolist is called');
+export const Todolist=memo((props: TodolistPropsType)=> {
+    const dispatch =useAppDispatch();
+
+    useEffect(()=>{
+        dispatch(fetchTasksTC(props.id))
+    },[]);
+
     const addTask = useCallback((title: string) => {
         props.addTask(title, props.id);
     },[props.addTask,props.id]);
@@ -47,6 +56,7 @@ export const Todolist=memo((props: PropsType)=> {
     const onActiveClickHandler = useCallback(() => props.changeFilter("active", props.id),[props.changeFilter,props.id]);
     const onCompletedClickHandler = useCallback(() => props.changeFilter("completed", props.id),[props.changeFilter,props.id]);
     let tasksForTodolist = props.tasks;
+
     if (props.filter === "active") {
         tasksForTodolist = props.tasks.filter(t => t.isDone === false);
     }
@@ -62,13 +72,13 @@ export const Todolist=memo((props: PropsType)=> {
         <AddItemForm addItem={addTask}/>
         <div>
             {
-                props.tasks.map(t => <Task
+                tasksForTodolist.map(t => <Task
+                    key={t.id}
                     task={t}
                     changeTaskStatus={props.changeTaskStatus}
                     removeTask={props.removeTask}
                     changeTaskTitle={props.changeTaskTitle}
                     todolistId={props.id}
-                    key={t.id}
                 />)
             }
         </div>
