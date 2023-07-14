@@ -9,6 +9,11 @@ const instance = axios.create({
 })
 
 // api
+export const enum ResultCode{
+    SUCCESS=0,
+    ERROR,
+    CAPTCHA_ERROR=10
+}
 export const todolistsAPI = {
     getTodolists() {
         return instance.get<TodolistType[]>('todo-lists');
