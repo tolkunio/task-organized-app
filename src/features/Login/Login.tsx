@@ -8,8 +8,19 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from 'formik';
+import {useAppDispatch, useAppSelector} from '../../app/store';
+import {loginTC} from '../Login/auth-reducer';
+import {useSelector} from 'react-redux';
+import {Navigate} from 'react-router-dom';
 
+export type LoginParamsType={
+    email:string,
+    password:string,
+    rememberMe?:boolean
+};
 export const Login = () => {
+    const dispatch = useAppDispatch();
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
     type FormikErrorType = {
         email?: string
         password?: string
@@ -22,23 +33,26 @@ export const Login = () => {
             rememberMe: false
         },
         validate:(values)=>{
-           const errors:FormikErrorType={};
-           if(!values.email){
+            const errors:FormikErrorType={};
+            if(!values.email){
                 errors.email='Required';
-           }
-           else if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)){
-               errors.email='Invalid email address';
-           }
-           if(values.password.length<3){
-               errors.password='Password length should be more than 3 symbols';
-           }
-           return errors;
+            }
+            else if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)){
+                errors.email='Invalid email address';
+            }
+            if(values.password.length<3){
+                errors.password='Password length should be more than 3 symbols';
+            }
+            return errors;
         },
         onSubmit: values => {
-            alert(JSON.stringify(values));
+            dispatch(loginTC(values));
+            formik.resetForm();
         },
     })
-
+    if(isLoggedIn){
+        return <Navigate to={'/'}/>
+    }
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>
             <form onSubmit={formik.handleSubmit}>

@@ -8,7 +8,8 @@ import {Task} from './Task/Task'
 import {TaskStatuses, TaskType} from '../../../api/todolists-api'
 import {FilterValuesType, TodolistDomainType} from '../todolists-reducer'
 import {fetchTasksTC} from '../tasks-reducer'
-import {useAppDispatch} from "../../../app/store";
+import {useAppDispatch, useAppSelector} from '../../../app/store';
+import {Navigate} from 'react-router-dom';
 
 type PropsType = {
     todolist: TodolistDomainType
@@ -25,11 +26,9 @@ type PropsType = {
 export const Todolist = React.memo(function ({...props}: PropsType) {
     console.log('Todolist called')
 
-    const dispatch = useAppDispatch()
-    useEffect(() => {
-        const thunk = fetchTasksTC(props.todolist.id)
-        dispatch(thunk)
-    }, [])
+    const dispatch = useAppDispatch();
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
+
 
     const addTask = useCallback((title: string) => {
         props.addTask(title, props.todolist.id)
@@ -55,7 +54,18 @@ export const Todolist = React.memo(function ({...props}: PropsType) {
     if (props.todolist.filter === 'completed') {
         tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.Completed)
     }
+    useEffect(() => {
+        if(!isLoggedIn){
+            return;
+        };
 
+        const thunk = fetchTasksTC(props.todolist.id)
+        dispatch(thunk)
+    }, [])
+
+    if(!isLoggedIn){
+        return <Navigate to={'/login'}/>
+    }
     return <div>
         <h3><EditableSpan value={props.todolist.title} onChange={changeTodolistTitle}/>
             <IconButton onClick={removeTodolist} disabled={props.todolist.entityStatus === 'loading'}>
