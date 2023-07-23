@@ -60,8 +60,6 @@ function App() {
                     <Route path='/login' element={<Login/>}/>
                     <Route path='*' element={<h1>404: PAGE NOT FOUND</h1>}/>
                 </Routes>
-                <TodolistsList/>
-                <Login/>
             </Container>
         </div>
     )
