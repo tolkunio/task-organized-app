@@ -40,7 +40,7 @@ const slice = createSlice({
     }
 });
 export const todolistReducer = slice.reducer;
-export const todolistActions = slice.actions;
+export const todolistsActions = slice.actions;
 
 
 // thunks
@@ -49,7 +49,7 @@ export const fetchTodolistsTC = (): AppThunk => {
         dispatch(appActions.setAppStatus({status: 'loading'}))
         todolistsAPI.getTodolists()
             .then((res) => {
-                dispatch(todolistActions.setTodolists({todolists: res.data}));
+                dispatch(todolistsActions.setTodolists({todolists: res.data}));
                 dispatch(appActions.setAppStatus({status: 'succeeded'}));
             })
     }
@@ -59,10 +59,10 @@ export const removeTodolistTC = (todolistId: string): AppThunk => {
         //изменим глобальный статус приложения, чтобы вверху полоса побежала
         dispatch(appActions.setAppStatus({status: 'loading'}));
         //изменим статус конкретного тудулиста, чтобы он мог задизеблить что надо
-        dispatch(todolistActions.changeTodolistEntityStatus({id: todolistId, status: 'loading'}))
+        dispatch(todolistsActions.changeTodolistEntityStatus({id: todolistId, status: 'loading'}))
         todolistsAPI.deleteTodolist(todolistId)
             .then((res) => {
-                dispatch(todolistActions.removeTodolist({id: todolistId}))
+                dispatch(todolistsActions.removeTodolist({id: todolistId}))
                 //скажем глобально приложению, что асинхронная операция завершена
                 dispatch(appActions.setAppStatus({status: 'succeeded'}));
             })
@@ -73,7 +73,7 @@ export const addTodolistTC = (title: string): AppThunk => {
         dispatch(appActions.setAppStatus({status: 'loading'}));
         todolistsAPI.createTodolist(title)
             .then((res) => {
-                dispatch(todolistActions.addTodolist({todolist:res.data.data.item}));
+                dispatch(todolistsActions.addTodolist({todolist:res.data.data.item}));
                 dispatch(appActions.setAppStatus({status: 'succeeded'}));
             })
     }
@@ -82,7 +82,7 @@ export const changeTodolistTitleTC = (id: string, title: string): AppThunk => {
     return (dispatch) => {
         todolistsAPI.updateTodolist(id, title)
             .then((res) => {
-                dispatch(todolistActions.changeTodolistTitle({id, title}))
+                dispatch(todolistsActions.changeTodolistTitle({id, title}))
             })
     }
 }
