@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import './App.css'
 import {TodolistsList} from '../features/TodolistsList/TodolistsList'
-import {useAppDispatch, useAppSelector} from './store'
+import {useAppSelector} from './store'
 import {RequestStatusType} from './app-reducer'
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -16,6 +16,7 @@ import {Login} from '../features/Login/Login';
 import {Route, Routes} from 'react-router-dom';
 import {initializeAppTC, logoutTC} from '../../src/features/Login/auth-reducer';
 import {CircularProgress} from '@mui/material';
+import {useAppDispatch} from 'hooks/useAppDispatch';
 
 
 function App() {
