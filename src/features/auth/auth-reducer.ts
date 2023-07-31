@@ -3,6 +3,8 @@ import {handleServerAppError, handleServerNetworkError} from 'utils/error-utils'
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {AppDispatch} from 'app/store';
 import {appActions} from 'app/app-reducer';
+import {todolistsActions} from 'features/TodolistsList/todolists-reducer';
+import {clearTasksandTodos} from 'common/common.action';
 
 const initialState = {
     isLoggedIn: false
@@ -20,10 +22,6 @@ export const authReducer = slice.reducer;
 export const authActions = slice.actions;
 
 type InitialStateType = typeof initialState
-
-// actions
-export const setIsLoggedInAC = (value: boolean) =>
-    ({type: 'login/SET-IS-LOGGED-IN', value} as const)
 
 // thunks
 export const loginTC = (data: any) => async (dispatch:AppDispatch) => {
@@ -64,6 +62,8 @@ export const logoutTC = () => (dispatch: AppDispatch) => {
             if (res.data.resultCode === 0) {
                 dispatch(authActions.setIsLoggedIn({isLoggedIn:true}));
                 dispatch(appActions.setAppStatus({status:'succeeded'}));
+                dispatch(clearTasksandTodos({tasks:{},todos:[]}));
+                dispatch(todolistsActions.clearTodolists());
             } else {
                 handleServerAppError(res.data, dispatch)
             }

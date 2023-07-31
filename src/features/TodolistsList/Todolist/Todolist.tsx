@@ -7,10 +7,10 @@ import {Delete} from '@mui/icons-material';
 import {Task} from './Task/Task'
 import {TaskStatuses, TaskType} from 'api/todolists-api'
 import {FilterValuesType, TodolistDomainType} from 'features/TodolistsList/todolists-reducer'
-import {fetchTasksTC} from '../tasks-reducer'
 import {useAppSelector} from 'app/store';
 import {Navigate} from 'react-router-dom';
 import {useAppDispatch} from 'hooks/useAppDispatch';
+import {tasksThunk} from 'features/TodolistsList/tasks-reducer';
 
 type PropsType = {
     todolist: TodolistDomainType
@@ -59,9 +59,7 @@ export const Todolist = React.memo(function ({...props}: PropsType) {
         if(!isLoggedIn){
             return;
         };
-
-        const thunk = fetchTasksTC(props.todolist.id)
-        dispatch(thunk)
+        dispatch( tasksThunk.fetchTasks(props.todolist.id))
     }, [])
 
     if(!isLoggedIn){

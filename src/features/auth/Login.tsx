@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from 'formik';
 import {useAppSelector} from 'app/store';
-import {loginTC} from 'features/Login/auth-reducer';
+import {loginTC} from 'features/auth/auth-reducer';
 import {Navigate} from 'react-router-dom';
 import {useAppDispatch} from 'hooks/useAppDispatch';
 
