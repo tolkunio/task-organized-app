@@ -1,10 +1,9 @@
-import {authAPI} from 'api/todolists-api';
-import {handleServerAppError, handleServerNetworkError} from 'utils/error-utils';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {AppDispatch} from 'app/store';
 import {appActions} from 'app/app-reducer';
-import {todolistsActions} from 'features/TodolistsList/todolists-reducer';
 import {clearTasksandTodos} from 'common/common.action';
+import { authAPI } from './auth.api';
+import {handleServerAppError, handleServerNetworkError} from 'common/utils';
 
 const initialState = {
     isLoggedIn: false
@@ -63,7 +62,6 @@ export const logoutTC = () => (dispatch: AppDispatch) => {
                 dispatch(authActions.setIsLoggedIn({isLoggedIn:true}));
                 dispatch(appActions.setAppStatus({status:'succeeded'}));
                 dispatch(clearTasksandTodos({tasks:{},todos:[]}));
-                dispatch(todolistsActions.clearTodolists());
             } else {
                 handleServerAppError(res.data, dispatch)
             }

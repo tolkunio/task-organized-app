@@ -1,16 +1,16 @@
 import React, {useCallback, useEffect} from 'react'
-import {AddItemForm} from 'components/AddItemForm/AddItemForm'
-import {EditableSpan} from 'components/EditableSpan/EditableSpan'
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import {Delete} from '@mui/icons-material';
 import {Task} from './Task/Task'
-import {TaskStatuses, TaskType} from 'api/todolists-api'
+import {TaskType} from 'common/api/api'
 import {FilterValuesType, TodolistDomainType} from 'features/TodolistsList/todolists-reducer'
 import {useAppSelector} from 'app/store';
 import {Navigate} from 'react-router-dom';
-import {useAppDispatch} from 'hooks/useAppDispatch';
-import {tasksThunk} from 'features/TodolistsList/tasks-reducer';
+import {useAppDispatch} from 'common/hooks/useAppDispatch';
+import {tasksThunks} from 'features/TodolistsList/tasks-reducer';
+import {AddItemForm, EditableSpan} from 'common/components';
+import { TaskStatuses } from 'common/enums';
 
 type PropsType = {
     todolist: TodolistDomainType
@@ -57,7 +57,7 @@ export const Todolist = React.memo(function ({...props}: PropsType) {
         if(!isLoggedIn){
             return;
         };
-        dispatch( tasksThunk.fetchTasks(props.todolist.id))
+        dispatch( tasksThunks.fetchTasks(props.todolist.id))
     }, [])
 
     if(!isLoggedIn){
