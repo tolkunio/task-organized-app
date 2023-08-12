@@ -2,7 +2,7 @@ import React, {useCallback, useEffect} from 'react'
 import {useAppSelector} from 'app/store'
 import {
     FilterValuesType,
-    TodolistDomainType, todolistsThunks
+    TodolistDomainType, todolistsActions, todolistsThunks
 } from './todolists-reducer'
 import {TasksStateType, tasksThunks} from './tasks-reducer'
 import Grid from '@mui/material/Grid';
@@ -38,7 +38,7 @@ export const TodolistsList: React.FC = () => {
     }, [])
 
     const changeFilter = useCallback(function (value: FilterValuesType, todolistId: string) {
-        dispatch(todolistsThunks.changeTodolistTitle({title:value, id:todolistId}));
+        dispatch(todolistsActions.changeTodolistFilter({id,filter}));
     }, [])
 
     const removeTodolist = useCallback(function (id: string) {
