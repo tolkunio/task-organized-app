@@ -26,8 +26,7 @@ export const TodolistsList: React.FC = () => {
     }, [])
 
     const addTask = useCallback(function (title: string, todolistId: string) {
-        const thunk = tasksThunks.addTask({title, todolistId});
-        dispatch(thunk)
+        dispatch(tasksThunks.addTask({title, todolistId}))
     }, [])
 
     const changeStatus = useCallback(function (taskId: string, status: TaskStatuses, todolistId: string) {

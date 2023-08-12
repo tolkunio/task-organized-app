@@ -13,7 +13,7 @@ import {Menu} from '@mui/icons-material';
 import {ErrorSnackbar} from 'common/components/ErrorSnackbar/ErrorSnackbar'
 import {Login} from 'features/auth/Login';
 import {Route, Routes} from 'react-router-dom';
-import {initializeAppTC, logoutTC} from 'features/auth/auth-reducer';
+import {authThunks} from 'features/auth/auth-reducer';
 import {CircularProgress} from '@mui/material';
 import {useAppDispatch} from 'common/hooks/useAppDispatch';
 import {selectAppStatus, selectIsInitialized} from './app.selector';
@@ -27,11 +27,11 @@ function App() {
     const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
     useEffect(() => {
-        dispatch(initializeAppTC())
+        dispatch(authThunks.initializeApp())
     }, []);
 
     const logOutHandler = () => {
-        dispatch(logoutTC());
+        dispatch(authThunks.logout());
     }
     if (!isInitialized) {
         return <div

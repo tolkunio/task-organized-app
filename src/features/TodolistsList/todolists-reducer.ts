@@ -25,7 +25,7 @@ const slice = createSlice({
     },
     extraReducers: builder => {
         builder.addCase(fetchTodolist.fulfilled, (state, action) => {
-            action.payload.todolists.map(tl => ({...tl, filter: 'all', entityStatus: 'idle'}))
+            return action.payload.todolists.map(tl => ({...tl, filter: 'all', entityStatus: 'idle'}))
         })
         builder.addCase(removeTodolist.fulfilled, (state, action) => {
             const index = state.findIndex(todo => todo.id === action.payload.id);
@@ -110,7 +110,7 @@ export const addTodoList = createAppAsyncThunk<{todolist:TodolistType}, string>(
 
 export const changeTodolistTitle = createAppAsyncThunk<UpdateTodolistTitleArgType,UpdateTodolistTitleArgType>
 ('todo/changeTodolistTitle',async (arg, thunkAPI)=>{
-    const {dispatch, rejectWithValue} = thunkAPI;
+    const { dispatch, rejectWithValue} = thunkAPI;
     try {
         dispatch(appActions.setAppStatus({status: 'loading'}));
         const res = await todolistsAPI.updateTodolist(arg.id, arg.title)
