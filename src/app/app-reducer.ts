@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {AppThunk} from 'app/store';
-import {authActions, authThunks} from 'features/auth/auth-reducer';
+import {authThunks} from 'features/auth/auth-reducer';
 import { authAPI } from 'features/auth/auth.api';
 
 const initialState: InitialStateType = {
@@ -33,15 +33,4 @@ export type InitialStateType = {
     // если ошибка какая-то глобальная произойдёт - мы запишем текст ошибки сюда
     error: string | null,
     isInitialized: boolean
-}
-//thunks
-export const initializeAppTC = ():AppThunk => (dispatch) => {
-    authAPI.me().then(res => {
-        if (res.data.resultCode === 0) {
-            dispatch(authThunks.initializeApp());
-        } else {
-
-        }
-        dispatch(appActions.setIsInitialized({isInitialized:true}));
-    })
 }

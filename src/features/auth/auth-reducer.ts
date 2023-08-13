@@ -1,10 +1,9 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {appActions} from 'app/app-reducer';
 import {clearTasksandTodos} from 'common/common.action';
-import {authAPI} from './auth.api';
+import {authAPI, LoginParamsType} from './auth.api';
 import {createAppAsyncThunk, handleServerAppError, handleServerNetworkError} from 'common/utils';
-import {LoginParamsType} from 'features/auth/Login';
-import {ResultCode} from 'common/api/api';
+import {BaseResponseType, ResultCode} from 'common/api/api';
 
 const initialState = {
     isLoggedIn: false
@@ -27,7 +26,7 @@ const slice = createSlice({
         })
     }
 });
-export const login = createAppAsyncThunk<{isLoggedIn:boolean},LoginParamsType>('auth/login',
+export const login = createAppAsyncThunk<{isLoggedIn:boolean},LoginParamsType,{rejectValue:null|BaseResponseType}>('auth/login',
     async (params, thunkAPI) => {
         const {dispatch, rejectWithValue} = thunkAPI;
         dispatch(appActions.setAppStatus({status: 'loading'}));
@@ -36,24 +35,23 @@ export const login = createAppAsyncThunk<{isLoggedIn:boolean},LoginParamsType>('
             if (res.data.resultCode === 0) {
                 return {isLoggedIn: true};
             } else {
-                handleServerAppError(res.data, dispatch);
-                return rejectWithValue(null);
+                handleServerAppError(res.data, dispatch,false);
+                return rejectWithValue(res.data);
             }
         } catch (e: any) {
             handleServerNetworkError(e, dispatch);
             return rejectWithValue(null);
         }
     })
-export const initializeApp = createAppAsyncThunk<undefined,undefined>('auth/initializeApp',
+export const initializeApp = createAppAsyncThunk<{isLoggedIn:boolean},undefined>('auth/initializeApp',
     async (_, thunkAPI)=>{
     const {dispatch,rejectWithValue}=thunkAPI;
         try {
             const res = await authAPI.me();
             if (res.data.resultCode === ResultCode.success) {
                 dispatch(appActions.setAppStatus({status: 'succeeded'}));
-                return undefined;
+                return {isLoggedIn:true}
             } else {
-                handleServerAppError(res.data, dispatch);
                 return rejectWithValue(null);
             }
         } catch (e) {

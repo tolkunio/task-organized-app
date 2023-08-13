@@ -1,15 +1,20 @@
-import {LoginParamsType} from 'features/auth/Login';
 import {AxiosResponse} from 'axios';
-import {instance, ResponseType, UserData} from 'common/api/api';
+import {instance, BaseResponseType, UserData} from 'common/api/api';
 export const authAPI={
     login(data:LoginParamsType){
-        return instance.post<ResponseType<{userId:string}>, AxiosResponse<ResponseType<{userId:string}>>,
+        return instance.post<BaseResponseType<{userId:string}>, AxiosResponse<BaseResponseType<{userId:string}>>,
             LoginParamsType>(`auth/login`,data);
     },
     me(){
-        return instance.get<ResponseType<UserData>>('auth/me');
+        return instance.get<BaseResponseType<UserData>>('auth/me');
     },
     logout(){
-        return instance.delete<ResponseType<{userId?:number}>>('auth/login');
+        return instance.delete<BaseResponseType<{userId?:number}>>('auth/login');
     }
 }
+export type LoginParamsType = {
+    email: string;
+    password: string;
+    rememberMe: boolean;
+    captcha?: string;
+};

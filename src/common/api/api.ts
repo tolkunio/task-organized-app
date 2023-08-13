@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { TaskPriorities, TaskStatuses } from 'common/enums'
+import {TaskPriorities, TaskStatuses} from 'common/enums'
 
 export const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
@@ -10,10 +10,14 @@ export const instance = axios.create({
 })
 
 // types
-export type ResponseType<D = {}> = {
+export type FieldErrorType = {
+    error: string,
+    field:string
+}
+export type BaseResponseType<D = {}> = {
     resultCode: number
     messages: Array<string>
-    fieldsErrors: Array<string>
+    fieldsErrors: FieldErrorType[]
     data: D
 }
 
@@ -51,10 +55,10 @@ export type GetTasksResponse = {
     totalCount: number
     items: TaskType[]
 }
-export type UserData={
-    id:number,
-    email:string,
-    login:string
+export type UserData = {
+    id: number,
+    email: string,
+    login: string
 }
 export const ResultCode = {
     success: 0,
