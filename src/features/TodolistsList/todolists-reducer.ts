@@ -4,6 +4,7 @@ import {createSlice, current, PayloadAction} from '@reduxjs/toolkit';
 import {clearTasksandTodos} from 'common/common.action';
 import {todolistsAPI, UpdateTodolistTitleArgType} from './todolist.api';
 import {createAppAsyncThunk, handleServerAppError, handleServerNetworkError} from 'common/utils';
+import {thunkTryCatch} from 'common/utils/thunk-try-catch';
 
 const initialState: Array<TodolistDomainType> = [];
 const slice = createSlice({
@@ -92,21 +93,17 @@ export const removeTodolist = createAppAsyncThunk<{ id: string }, string>('todo/
 export const addTodoList = createAppAsyncThunk<{todolist:TodolistType}, string>('todo/addTodoList',
     async (title, thunkAPI) => {
         const {dispatch, rejectWithValue} = thunkAPI;
-        try {
-            dispatch(appActions.setAppStatus({status: 'loading'}));
+        return thunkTryCatch(thunkAPI,async ()=>{
             const res = await todolistsAPI.createTodolist(title);
             if (res.data.resultCode === ResultCode.success) {
-                dispatch(appActions.setAppStatus({status: 'succeeded'}));
                 return {todolist: res.data.data.item};
             } else {
                 handleServerAppError(res.data, dispatch);
                 return rejectWithValue(null);
             }
-        } catch (e: any) {
-            handleServerNetworkError(e, dispatch);
-            return rejectWithValue(null);
-        }
+        })
     })
+
 
 export const changeTodolistTitle = createAppAsyncThunk<UpdateTodolistTitleArgType,UpdateTodolistTitleArgType>
 ('todo/changeTodolistTitle',async (arg, thunkAPI)=>{
