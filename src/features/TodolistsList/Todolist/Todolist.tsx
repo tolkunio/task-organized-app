@@ -1,13 +1,13 @@
-import React, { useCallback, useEffect } from 'react'
-import { AddItemForm } from '../../../components/AddItemForm/AddItemForm'
-import { EditableSpan } from '../../../components/EditableSpan/EditableSpan'
-import { Task } from './Task/Task'
-import { TaskStatuses, TaskType } from '../../../api/todolists-api'
-import { FilterValuesType, TodolistDomainType } from '../todolists-reducer'
-import { fetchTasksTC } from '../tasks-reducer'
-import { useAppDispatch } from '../../../hooks/useAppDispatch';
-import { Button, IconButton } from '@mui/material'
-import { Delete } from '@mui/icons-material'
+import React, {useCallback, useEffect} from 'react'
+import {AddItemForm} from '../../../components/AddItemForm/AddItemForm'
+import {EditableSpan} from '../../../components/EditableSpan/EditableSpan'
+import {Task} from './Task/Task'
+import {TaskStatuses, TaskType} from '../../../api/todolists-api'
+import {FilterValuesType, TodolistDomainType} from '../todolists-reducer'
+import {fetchTasksTC} from '../tasks-reducer'
+import {useAppDispatch} from '../../../hooks/useAppDispatch';
+import {Button, IconButton} from '@mui/material'
+import {Delete} from '@mui/icons-material'
 
 type PropsType = {
     todolist: TodolistDomainType
@@ -60,7 +60,8 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
     }
 
     return <div>
-        <h3><EditableSpan value={props.todolist.title} onChange={changeTodolistTitle}/>
+        <h3>
+            <EditableSpan value={props.todolist.title} onChange={changeTodolistTitle}/>
             <IconButton onClick={removeTodolist} disabled={props.todolist.entityStatus === 'loading'}>
                 <Delete/>
             </IconButton>
@@ -75,7 +76,7 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
                 />)
             }
         </div>
-        <div style={{paddingTop: '10px'}}>
+        <div style={{paddingTop: '25px'}}>
             <Button variant={props.todolist.filter === 'all' ? 'outlined' : 'text'}
                     onClick={onAllClickHandler}
                     color={'inherit'}

@@ -1,22 +1,23 @@
-import React, { useCallback, useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { AppRootStateType } from '../../app/store'
+import React, {useCallback, useEffect} from 'react'
+import {useSelector} from 'react-redux'
+import {AppRootStateType} from '../../app/store'
 import {
-	addTodolistTC,
-	changeTodolistFilterAC,
-	changeTodolistTitleTC,
-	fetchTodolistsTC,
-	FilterValuesType,
-	removeTodolistTC,
-	TodolistDomainType
+    addTodolistTC,
+    changeTodolistFilterAC,
+    changeTodolistTitleTC,
+    fetchTodolistsTC,
+    FilterValuesType,
+    removeTodolistTC,
+    TodolistDomainType
 } from './todolists-reducer'
-import { addTaskTC, removeTaskTC, TasksStateType, updateTaskTC } from './tasks-reducer'
-import { TaskStatuses } from '../../api/todolists-api'
-import { Grid, Paper } from '@mui/material'
-import { AddItemForm } from '../../components/AddItemForm/AddItemForm'
-import { Todolist } from './Todolist/Todolist'
-import { Navigate } from 'react-router-dom'
-import { useAppDispatch } from '../../hooks/useAppDispatch';
+import {addTaskTC, removeTaskTC, TasksStateType, updateTaskTC} from './tasks-reducer'
+import {TaskStatuses} from '../../api/todolists-api'
+import {Grid, Paper} from '@mui/material'
+import {AddItemForm} from '../../components/AddItemForm/AddItemForm'
+import {Todolist} from './Todolist/Todolist'
+import {Navigate} from 'react-router-dom'
+import {useAppDispatch} from '../../hooks/useAppDispatch';
+import s from './TodolistsList.module.css';
 
 type PropsType = {
     demo?: boolean
@@ -34,7 +35,7 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
             return;
         }
         const thunk = fetchTodolistsTC()
-			dispatch(thunk)
+        dispatch(thunk)
     }, [])
 
     const removeTask = useCallback(function (id: string, todolistId: string) {
@@ -78,20 +79,21 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
     }, [dispatch])
 
     if (!isLoggedIn) {
-        return <Navigate to={"/login"} />
+        return <Navigate to={"/login"}/>
     }
 
-    return <>
-        <Grid container style={{padding: '20px'}}>
-            <AddItemForm addItem={addTodolist}/>
+    return <div>
+        <Grid item xl={10} style={{width:'100%', maxWidth:'1080px', margin:'30px 0px 30px 0'}}>
+            <AddItemForm fullWidth={true} addItem={addTodolist} label={'Tasks'} iconButton={true}/>
         </Grid>
-        <Grid container spacing={3}>
+
+        <Grid container spacing={6}>
             {
                 todolists.map(tl => {
                     let allTodolistTasks = tasks[tl.id]
 
                     return <Grid item key={tl.id}>
-                        <Paper style={{padding: '10px'}}>
+                        <Paper style={{padding: '30px'}}>
                             <Todolist
                                 todolist={tl}
                                 tasks={allTodolistTasks}
@@ -109,5 +111,5 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
                 })
             }
         </Grid>
-    </>
+    </div>
 }
