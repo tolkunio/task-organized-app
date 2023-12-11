@@ -1,16 +1,13 @@
-import React, {useCallback, useEffect} from 'react'
-import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
-import {Delete} from '@mui/icons-material';
-import {Task} from './Task/Task'
-import {TaskType} from 'common/api/api'
-import {FilterValuesType, TodolistDomainType} from 'features/TodolistsList/todolists-reducer'
-import {useAppSelector} from 'app/store';
-import {Navigate} from 'react-router-dom';
-import {useAppDispatch} from 'common/hooks/useAppDispatch';
-import {tasksThunks} from 'features/TodolistsList/tasks-reducer';
-import {AddItemForm, EditableSpan} from 'common/components';
-import { TaskStatuses } from 'common/enums';
+import React, { useCallback, useEffect } from 'react'
+import { AddItemForm } from '../../../components/AddItemForm/AddItemForm'
+import { EditableSpan } from '../../../components/EditableSpan/EditableSpan'
+import { Task } from './Task/Task'
+import { TaskStatuses, TaskType } from '../../../api/todolists-api'
+import { FilterValuesType, TodolistDomainType } from '../todolists-reducer'
+import { fetchTasksTC } from '../tasks-reducer'
+import { useAppDispatch } from '../../../hooks/useAppDispatch';
+import { Button, IconButton } from '@mui/material'
+import { Delete } from '@mui/icons-material'
 
 type PropsType = {
     todolist: TodolistDomainType
@@ -22,12 +19,20 @@ type PropsType = {
     removeTask: (taskId: string, todolistId: string) => void
     removeTodolist: (id: string) => void
     changeTodolistTitle: (id: string, newTitle: string) => void
+    demo?: boolean
 }
 
-export const Todolist = React.memo(function ({...props}: PropsType) {
-    const dispatch = useAppDispatch();
-    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
+export const Todolist = React.memo(function ({demo = false, ...props}: PropsType) {
 
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        if (demo) {
+            return
+        }
+        const thunk = fetchTasksTC(props.todolist.id)
+        dispatch(thunk)
+    }, [])
 
     const addTask = useCallback((title: string) => {
         props.addTask(title, props.todolist.id)
@@ -53,16 +58,7 @@ export const Todolist = React.memo(function ({...props}: PropsType) {
     if (props.todolist.filter === 'completed') {
         tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.Completed)
     }
-    useEffect(() => {
-        if(!isLoggedIn){
-            return;
-        };
-        dispatch( tasksThunks.fetchTasks(props.todolist.id))
-    }, [])
 
-    if(!isLoggedIn){
-        return <Navigate to={'/login'}/>
-    }
     return <div>
         <h3><EditableSpan value={props.todolist.title} onChange={changeTodolistTitle}/>
             <IconButton onClick={removeTodolist} disabled={props.todolist.entityStatus === 'loading'}>
