@@ -6,7 +6,7 @@ import {TaskStatuses, TaskType} from '../../../api/todolists-api'
 import {FilterValuesType, TodolistDomainType} from '../todolists-reducer'
 import {fetchTasksTC} from '../tasks-reducer'
 import {useAppDispatch} from '../../../hooks/useAppDispatch';
-import {Button, IconButton} from '@mui/material'
+import {Button, Chip, IconButton, Tooltip} from '@mui/material'
 import {Delete} from '@mui/icons-material'
 
 type PropsType = {
@@ -62,9 +62,12 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
     return <div>
         <h3>
             <EditableSpan value={props.todolist.title} onChange={changeTodolistTitle}/>
-            <IconButton onClick={removeTodolist} disabled={props.todolist.entityStatus === 'loading'}>
-                <Delete/>
-            </IconButton>
+            <Tooltip title="Удалить">
+                <IconButton onClick={removeTodolist} disabled={props.todolist.entityStatus === 'loading'}>
+                    <Delete/>
+                </IconButton>
+            </Tooltip>
+
         </h3>
         <AddItemForm addItem={addTask} disabled={props.todolist.entityStatus === 'loading'}/>
         <div>
@@ -80,15 +83,15 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
             <Button variant={props.todolist.filter === 'all' ? 'outlined' : 'text'}
                     onClick={onAllClickHandler}
                     color={'inherit'}
-            >All
+            >Все
             </Button>
             <Button variant={props.todolist.filter === 'active' ? 'outlined' : 'text'}
                     onClick={onActiveClickHandler}
-                    color={'primary'}>Active
+                    color={'primary'}>Активные
             </Button>
             <Button variant={props.todolist.filter === 'completed' ? 'outlined' : 'text'}
                     onClick={onCompletedClickHandler}
-                    color={'secondary'}>Completed
+                    color={'secondary'}>Законченные
             </Button>
         </div>
     </div>

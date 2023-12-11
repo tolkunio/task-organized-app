@@ -17,7 +17,6 @@ import {AddItemForm} from '../../components/AddItemForm/AddItemForm'
 import {Todolist} from './Todolist/Todolist'
 import {Navigate} from 'react-router-dom'
 import {useAppDispatch} from '../../hooks/useAppDispatch';
-import s from './TodolistsList.module.css';
 
 type PropsType = {
     demo?: boolean
@@ -87,7 +86,7 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
             <AddItemForm fullWidth={true} addItem={addTodolist} label={'Tasks'} iconButton={true}/>
         </Grid>
 
-        <Grid container spacing={6}>
+        <Grid container spacing={4}>
             {
                 todolists.map(tl => {
                     let allTodolistTasks = tasks[tl.id]

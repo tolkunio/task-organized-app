@@ -20,7 +20,8 @@ import {
     Typography
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu'
-import styled from "styled-components";
+import Header from "components/Header/Header";
+import {Footer} from "components/Footer/Footer";
 
 type PropsType = {
     demo?: boolean
@@ -51,26 +52,14 @@ function App({demo = false}: PropsType) {
         <BrowserRouter>
             <div className='App'>
                 <ErrorSnackbar/>
-                <AppBar position="static">
-                    <Toolbar>
-                        <IconButton size='large' edge="start" color="inherit" aria-label="menu" sx={{mr: 2}}>
-                            <MenuIcon/>
-                        </IconButton>
-                        <Typography variant="h6" component='div' sx={{flexGrow: 1}}>
-                            Tasks Managament Dashboard
-                        </Typography>
-                        {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Log out</Button>}
-                        <Avatar sx={{width: 24, height: 24, marginLeft: 5}} alt={'TO'} src={avatar}></Avatar>
-                    </Toolbar>
-                    {status === 'loading' && <LinearProgress/>}
-                </AppBar>
-
+                <Header isLoggedIn={isLoggedIn} logoutHandler={logoutHandler} status={status}/>
                 <Container fixed>
                     <Routes>
                         <Route path={'/'} element={<TodolistsList demo={demo}/>}/>
                         <Route path={'/login'} element={<Login/>}/>
                     </Routes>
                 </Container>
+                <Footer/>
             </div>
         </BrowserRouter>
     )

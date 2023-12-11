@@ -1,5 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {Button, createTheme, IconButton, Stack, TextField, ThemeProvider} from '@mui/material';
+import {Button, createTheme, IconButton, Stack, TextField, ThemeProvider, Tooltip} from '@mui/material';
 import {AddBox, AddOutlined} from '@mui/icons-material';
 
 type AddItemFormPropsType = {
@@ -8,13 +8,6 @@ type AddItemFormPropsType = {
     fullWidth?: boolean,
     label?: string,
     iconButton?: boolean
-
-    //stack Flexbox properties
-    direction?: string,
-    alignItems?: string,
-    justifyContent?: string,
-    spacing?: number
-
 }
 
 export const AddItemForm = React.memo(
@@ -25,10 +18,6 @@ export const AddItemForm = React.memo(
             fullWidth = false,
             label,
             iconButton = false,
-            direction = 'row',
-            alignItems = 'center',
-            justifyContent = 'space-between',
-            spacing = 0
         }: AddItemFormPropsType) {
 
         let [title, setTitle] = useState('')
@@ -57,32 +46,37 @@ export const AddItemForm = React.memo(
         }
 
         return <Stack direction='row'>
-                <TextField variant="outlined"
-                           disabled={disabled}
-                           error={!!error}
-                           value={title}
-                           onChange={onChangeHandler}
-                           onKeyPress={onKeyPressHandler}
-                           label={label}
-                           helperText={error}
-                           fullWidth={fullWidth}
-                />
-                {
-                    iconButton ?
-                        <Button style={{marginLeft: '20px',maxWidth:'200px', width:'100%'}}
+            <TextField variant="outlined"
+                       disabled={disabled}
+                       error={!!error}
+                       value={title}
+                       onChange={onChangeHandler}
+                       onKeyPress={onKeyPressHandler}
+                       label={label}
+                       helperText={error}
+                       fullWidth={fullWidth}
+            />
+            {
+                iconButton ?
+                    <Tooltip title="добавить" arrow>
+                        <Button style={{marginLeft: '20px', maxWidth: '200px', width: '100%'}}
                                 variant="contained"
                                 startIcon={<AddOutlined/>}
                                 onClick={addItemHandler}
                                 disabled={disabled}>
-                            Add Tasks
+                            Добавить
                         </Button>
-                        :
+                    </Tooltip>
+                    :
+                    <Tooltip title="добавить">
                         <IconButton color="primary"
                                     onClick={addItemHandler}
                                     disabled={disabled}>
                             <AddBox/>
                         </IconButton>
+                    </Tooltip>
 
-                }
-            </Stack>
+
+            }
+        </Stack>
     })
