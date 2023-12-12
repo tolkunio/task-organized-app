@@ -4,13 +4,25 @@ import {authAPI, LoginParamsType} from '../../api/todolists-api'
 import {handleServerAppError, handleServerNetworkError} from '../../utils/error-utils'
 
 const initialState: InitialStateType = {
-    isLoggedIn: false
+    isLoggedIn: false,
+    userData: {
+        id: 1,
+        email: '',
+        login: '',
+        isAuth: false
+    }
 }
 
 export const authReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case 'login/SET-IS-LOGGED-IN':
             return {...state, isLoggedIn: action.value}
+        case 'login/SET-USER-DATA':
+            return {
+                ...state,
+                ...action.payload.authData,
+                isLoggedIn: true
+            }
         default:
             return state
     }
@@ -20,9 +32,18 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
 
 export const setIsLoggedInAC = (value: boolean) =>
     ({type: 'login/SET-IS-LOGGED-IN', value} as const)
-
+export const setUserDataAC = (authData: AuthUserType) =>
+    ({type: 'login/SET-USER-DATA', payload: {authData}} as const)
 
 // thunks
+export const authUserTC = () => (dispatch: Dispatch) => {
+    authAPI.me()
+        .then((res) => {
+            if (res.data.resultCode === 0) {
+                dispatch(setUserDataAC(res.data.data))
+            }
+        });
+}
 export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType>) => {
     dispatch(setAppStatusAC('loading'))
     authAPI.login(data)
@@ -56,9 +77,16 @@ export const logoutTC = () => (dispatch: Dispatch<ActionsType | SetAppStatusActi
 
 // types
 
-type ActionsType = ReturnType<typeof setIsLoggedInAC>
+type ActionsType = ReturnType<typeof setIsLoggedInAC> | ReturnType<typeof setUserDataAC>
 type InitialStateType = {
-    isLoggedIn: boolean
+    isLoggedIn: boolean,
+    userData: AuthUserType
+}
+export type AuthUserType = {
+    id: number,
+    email: string,
+    login: string
+    isAuth?: boolean
 }
 
 type ThunkDispatch = Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType>
