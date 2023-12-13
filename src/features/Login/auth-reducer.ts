@@ -9,7 +9,6 @@ const initialState: InitialStateType = {
         id: 1,
         email: '',
         login: '',
-        isAuth: false
     }
 }
 
@@ -18,9 +17,10 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
         case 'login/SET-IS-LOGGED-IN':
             return {...state, isLoggedIn: action.value}
         case 'login/SET-USER-DATA':
+            console.log(action.payload.authData)
             return {
                 ...state,
-                ...action.payload.authData,
+                userData: action.payload.authData,
                 isLoggedIn: true
             }
         default:
@@ -86,7 +86,6 @@ export type AuthUserType = {
     id: number,
     email: string,
     login: string
-    isAuth?: boolean
 }
 
 type ThunkDispatch = Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType>
