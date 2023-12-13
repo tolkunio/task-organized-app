@@ -1,5 +1,6 @@
 <p align="center">
     <img src="https://i.ibb.co/JqNdVXf/Screenshot-1.png" alt="Project logo" border="0">
+    [Demo](https://tolkunio.github.io/TaskOrganizedApp/)
 </p>
 
 <p align="center">
