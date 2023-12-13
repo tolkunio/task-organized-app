@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/TaskOrganizedApp/static/css/main.e6c13ad2.css",
+    "main.js": "/TaskOrganizedApp/static/js/main.84af2fa0.js",
+    "index.html": "/TaskOrganizedApp/index.html",
+    "main.e6c13ad2.css.map": "/TaskOrganizedApp/static/css/main.e6c13ad2.css.map",
+    "main.84af2fa0.js.map": "/TaskOrganizedApp/static/js/main.84af2fa0.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.84af2fa0.js"
+  ]
+}
