@@ -1,6 +1,6 @@
+[Demo](https://tolkunio.github.io/TaskOrganizedApp/)
 <p align="center">
     <img src="https://i.ibb.co/JqNdVXf/Screenshot-1.png" alt="Project logo" border="0">
-    [Demo](https://tolkunio.github.io/TaskOrganizedApp/)
 </p>
 
 <p align="center">
@@ -48,7 +48,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 ## Distribute
 
 - [React](https://react.dev/)
-- [Typescript](https://react.dev](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html/)
+- [Typescript](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
 - [React-Redux](https://react-redux.js.org/)
 - [Materuial-UI](https://mui.com/)
 
